@@ -14,7 +14,7 @@ export class TaskContoller {
     try {
       const { id: taskId } = req.params;
 
-      const foundTask = await TaskModel.getTaskById(taskId);
+      const foundTask = await TaskModel.getTaskById(req.params.id);
 
       return res.json(foundTask);
     } catch (error) {

@@ -48,14 +48,22 @@ export class TaskModel {
 
     return foundTask;
   }
+
   static async createTask(taskData) {
+    const tasks = await this.getAllTasks();
+
     const validation = tasksSchema.validate(taskData);
+
     if (validation?.error) throw new Error(validation.error.details[0].message);
 
     const { text, author } = taskData;
+
     const newTask = new Task(text, author);
+
     const updatedTasks = [...tasks, newTask];
+
     await this.saveTasks(updatedTasks);
+
     return newTask;
   }
 
@@ -66,7 +74,6 @@ export class TaskModel {
 
     if (!foundTask) throw new Error("Can't find task");
 
-    // If we like to return updated task
     let updatedTask = null;
 
     const updatedTasks = tasks.map((task) => {
